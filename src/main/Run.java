@@ -1,10 +1,7 @@
 package main;
 
 import lib.frame.DefaultFrame;
-import lib.modals.RotateWin;
-import lib.modals.ScaleWin;
-import lib.modals.ShearWin;
-import lib.modals.TranslateWin;
+import lib.modals.*;
 import lib.sidebar.SideBar;
 import lib.staticlass.OptionsPaint;
 import lib.staticlass.ShapePoints;
@@ -26,7 +23,8 @@ public class Run
     private static ScaleWin modalEscalar;
     private static ShearWin modalShear;
     private static TranslateWin modalTras;
-
+    private static Autores modalAutores;
+    private static Help modalHelp;
     private static OptionsPaint optionPaint = OptionsPaint.DEFAULT;
 
     private static JMenuBar barraM;
@@ -122,6 +120,8 @@ public class Run
         //imagen de fondo
 
 
+        opcDes.addActionListener(Run::menuListener);
+        opcAyu.addActionListener(Run::menuListener);
         opcTras.addActionListener(Run::menuListener);
         opcRefX.addActionListener(Run::menuListener);
         opcRefY.addActionListener(Run::menuListener);
@@ -133,7 +133,13 @@ public class Run
 
 
     private static void menuListener(ActionEvent e){
-            if(e.getSource()==opcTras)
+
+            if(e.getSource()==opcAyu){
+                modalHelp.setVisible(true);
+            }else if(e.getSource()==opcDes){
+                modalAutores.setVisible(true);
+            }
+            else if(e.getSource()==opcTras)
             {
                 int res[] = modalTras.mostrar();
 
@@ -208,6 +214,8 @@ public class Run
         initUI();
         frame = new DefaultFrame("Proyecto 1 -- Unidad 2");
         tabbedPane = new TabbedPane();
+        modalAutores = new Autores(frame,true);
+        modalHelp = new Help(frame,true);
         modalRotar = new RotateWin(frame,true);
         modalEscalar = new ScaleWin(frame,true);
         modalShear = new ShearWin(frame,true);

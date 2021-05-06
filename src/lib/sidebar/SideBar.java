@@ -70,7 +70,7 @@ public class SideBar extends JPanel
         }
 
         {
-            addSection("Animaciones").addSideComponent(ImageLoader.rotateLImage, ImageLoader.rotateLRImage, handler,
+            addSection("Animaciones").addSideComponent(ImageLoader.stop, ImageLoader.stopR, handler,
                     "Parar animacion", "STOP",false);
 
             addSideComponent(ImageLoader.rotateLImage, ImageLoader.rotateLRImage, handler,

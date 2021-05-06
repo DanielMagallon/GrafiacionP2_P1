@@ -47,6 +47,8 @@ public class ImageLoader
     public static ImageIcon cerrar = getImageIcon("material/cerrar36px.png");
     public static ImageIcon cerrarR = getImageIcon("material/cerrar26px.png");
 
+    public static ImageIcon stop = getImageIcon("material/stop36px.png");
+    public static ImageIcon stopR = getImageIcon("material/stop26px.png");
 
     public static ImageIcon getImageIcon(String path)
     {
