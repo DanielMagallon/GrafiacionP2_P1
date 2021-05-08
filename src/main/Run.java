@@ -213,6 +213,7 @@ public class Run
     {
         initUI();
         frame = new DefaultFrame("Proyecto 1 -- Unidad 2");
+        frame.setSize(1200, 700);
         tabbedPane = new TabbedPane();
         modalAutores = new Autores(frame,true);
         modalHelp = new Help(frame,true);

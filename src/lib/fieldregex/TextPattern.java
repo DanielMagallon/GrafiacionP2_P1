@@ -15,7 +15,7 @@ public class TextPattern extends JTextField
         setColumns(cols);
 
         addKeyListener(new KeyAdapter() {
-            @Override
+           
             public void keyTyped(KeyEvent keyEvent) {
                 if(!pattern.matcher(TextPattern.this.getText()+keyEvent.getKeyChar()).matches())
                     keyEvent.consume();

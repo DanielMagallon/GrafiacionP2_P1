@@ -17,7 +17,7 @@ public class MapeoWin extends JDialog
         super(f,false);
 //        setUndecorated(true);
         canvas =    new JPanel(){
-            @Override
+           
             protected void paintComponent(Graphics graphics) {
                 super.paintComponent(graphics);
                 if(gr!=null)

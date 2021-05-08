@@ -49,7 +49,8 @@ public class ImageLoader
 
     public static ImageIcon stop = getImageIcon("material/stop36px.png");
     public static ImageIcon stopR = getImageIcon("material/stop26px.png");
-
+    
+    public static ImageIcon fauto = getImageIcon("material/fondo.jpg");
     public static ImageIcon getImageIcon(String path)
     {
         return new ImageIcon(Objects.requireNonNull(ImageLoader.class.getResource("/rsc/" + path)));
