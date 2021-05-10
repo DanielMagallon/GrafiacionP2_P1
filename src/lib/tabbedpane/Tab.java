@@ -121,9 +121,8 @@ public class Tab extends JPanel
                 else {
                     mover = false;
                 }
-
+                
                 repaint();
-
             }
 
             @Override
@@ -136,6 +135,7 @@ public class Tab extends JPanel
                 if(mover && !selectPoint){
                     setCursor(null);
                 }
+                showMenu(mouseEvent);
             }
         });
 
@@ -186,6 +186,7 @@ public class Tab extends JPanel
     }
 
     private void showMenu(MouseEvent mouseEvent){
+    
         if(mouseEvent.isPopupTrigger()){
             popupMenu.show(mouseEvent.getComponent(),mouseEvent.getX(),mouseEvent.getY());
         }
