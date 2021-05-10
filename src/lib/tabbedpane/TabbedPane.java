@@ -236,9 +236,11 @@ public class TabbedPane extends JTabbedPane {
         }
     }
 
-    public void addTab(JFrame f, String title, GraphicsRunnable gr, int maxWidth, int maxHeight, Color bg, Color line,
-                       int pixelSize) {
-        this.addTab(title, new Tab(f, gr, maxWidth, maxHeight, bg, line, pixelSize));
+
+    public void addTab(JFrame f, String title,GraphicsRunnable gr, int maxWidth, int maxHeight, Color bg, Color line,
+                        int pixelSize,int figura)
+    {
+        this.addTab(title, new Tab(f,gr,maxWidth,maxHeight,bg,line,pixelSize,figura));
         selectTab();
     }
 
@@ -250,4 +252,9 @@ public class TabbedPane extends JTabbedPane {
 
     }
 
+    public void addTab(JFrame f, String title,GraphicsRunnable gr, int maxWidth, int maxHeight, Color bg, Color line,int figura)
+    {
+        this.addTab(title,new Tab(f,gr,maxWidth,maxHeight,bg,line,figura));
+        selectTab();
+    }
 }

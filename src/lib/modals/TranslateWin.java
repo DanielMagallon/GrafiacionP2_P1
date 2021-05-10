@@ -17,7 +17,7 @@ public class TranslateWin extends JDialog {
 	public TranslateWin(JFrame v, boolean modal) {
 		super(v,modal);
 		setTitle("Traslacion de la figura");
-		setLocation(650,600);
+		setLocationRelativeTo(null);
 		setLayout(new FlowLayout());
 
 		et1=new JLabel(ImageLoader.trasR);

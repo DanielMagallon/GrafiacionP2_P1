@@ -15,7 +15,7 @@ public class ScaleWin extends JDialog {
 		super(v,modal);
 		setTitle("Escalar una figura");
 		setSize(600,80);
-		setLocation(400,600);
+		setLocationRelativeTo(null);
 		setLayout(new FlowLayout() );
 		et1=new JLabel(ImageLoader.escalarPosR);
 		et2=new JLabel("Cantidad a escalar: ");

@@ -28,6 +28,7 @@ public class Run
     private static Help modalHelp;
     public static OptionsPaint optionPaint = OptionsPaint.DEFAULT;
 
+    private static Figuraopcion escojerfig;
     private static JMenuBar barraM;
     private static JMenu Menu1,Menu2;
     private static JMenuItem opcRest,opcEsc,opcRotar,opcDef, opcRefX,opcRefY,opcTras,opcSalir,opcDes,opcAyu;
@@ -101,13 +102,13 @@ public class Run
         opcDes.setToolTipText("Muestra los autores de la apliaccion");
         rutaIm= Run.class.getResource("/rsc/menuimg/refle.png");
         opcDes.setIcon(new ImageIcon(rutaIm));
-
+        opcDes.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,InputEvent.ALT_MASK));
         opcAyu=new JMenuItem("Ayuda");
         opcAyu.setMnemonic('A');
         opcAyu.setToolTipText("Ayuda del programa");
         rutaIm= Run.class.getResource("/rsc/menuimg/ayuda.png");
         opcAyu.setIcon(new ImageIcon(rutaIm));
-        opcAyu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,InputEvent.ALT_MASK));
+        opcAyu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1,0));
         Menu2.add(opcDes);
         Menu2.add(opcAyu);
         //imagen de fondo
@@ -230,7 +231,9 @@ public class Run
     {
         initUI();
         frame = new DefaultFrame("Proyecto 1 -- Unidad 2");
-        frame.setSize(1200, 700);
+        frame.setSize(1400, 700);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
         tabbedPane = new TabbedPane();
         modalAutores = new Autores(frame,true);
         modalHelp = new Help(frame,true);
@@ -238,7 +241,7 @@ public class Run
         modalEscalar = new ScaleWin(frame,true);
         modalShear = new ShearWin(frame,true);
         modalTras = new TranslateWin(frame,true);
-
+        escojerfig=new  Figuraopcion (frame,true);
         initJMenuBar();
 
         sc = new JScrollPane();
@@ -358,8 +361,10 @@ public class Run
 
     public static void addNewTab()
     {
-            tabbedPane.addTab(frame,"Figura",Run::paintCanvas,1000,600,
-                    new Color(0x1A2136),new Color(0x325180),25);
+
+    		int figuranumero= escojerfig.mostrar();
+            tabbedPane.addTab(frame,"Figura "+figuranumero,Run::paintCanvas,1000,600,
+                    new Color(0x1A2136),new Color(0x325180),25,figuranumero);
     }
 
     public static void paintCanvas(Graphics g)

@@ -17,7 +17,7 @@ public class ShearWin extends JDialog {
 	public ShearWin(JFrame v, boolean modal) {
 		super(v,modal);
 		setTitle("Deformar una figura en cualquier sentido");
-		setLocation(650,600);
+		setLocationRelativeTo(null);
 		setLayout(new FlowLayout());
 
 		et1=new JLabel(ImageLoader.defXR);

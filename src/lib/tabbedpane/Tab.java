@@ -37,14 +37,19 @@ public class Tab extends JPanel
     private JLabel msg;
     public AnimationStatus animationStatus;
 
-    private Tab(JFrame f)
+    private Tab(JFrame f, int figura)
     {
         setLayout(new BorderLayout());
 
         animationStatus = AnimationStatus.NONE;
 
         drawer = new Drawer(ShapePoints.getCopyOf(ShapePoints.shape2));
-
+        if(figura==1) {
+        	drawer = new Drawer(ShapePoints.getCopyOf(ShapePoints.shape1));
+        }else {
+        	drawer = new Drawer(ShapePoints.getCopyOf(ShapePoints.shape2));
+        }
+        
         popupMenu = new JPopupMenu();
 
         JMenuItem mtReset = new JMenuItem("Restaurar figura", ImageLoader.resetR);
@@ -159,9 +164,9 @@ public class Tab extends JPanel
         this.animation = false;
     }
 
-    public Tab(JFrame f, GraphicsRunnable gr,int maxWidth,int maxHeight,Color bg,Color line,int pixelSize)
+    public Tab(JFrame f, GraphicsRunnable gr,int maxWidth,int maxHeight,Color bg,Color line,int pixelSize,int figura)
     {
-        this(f);
+        this(f,figura);
         graphicsRunnable = gr;
         defaultBg = bg;
         defaultLineColor = line;
@@ -170,9 +175,9 @@ public class Tab extends JPanel
         setPreferredSize(new Dimension(maxWidth,maxHeight));
     }
 
-    public Tab(JFrame f, GraphicsRunnable gr,int maxWidth,int maxHeight,Color bg,Color line)
+    public Tab(JFrame f, GraphicsRunnable gr,int maxWidth,int maxHeight,Color bg,Color line, int figura)
     {
-        this(f);
+        this(f,figura);
         graphicsRunnable = gr;
         defaultBg = bg;
         defaultLineColor = line;
