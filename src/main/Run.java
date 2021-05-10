@@ -30,10 +30,11 @@ public class Run
 
     private static Figuraopcion escojerfig;
     private static JMenuBar barraM;
-    private static JMenu Menu1,Menu2;
     private static JMenuItem opcRest,opcEsc,opcRotar,opcDef, opcRefX,opcRefY,opcTras,opcSalir,opcDes,opcAyu;
 
     private static void initJMenuBar(){
+        JMenu Menu1,Menu2;
+
         barraM=new JMenuBar();
         frame.setJMenuBar(barraM);
         Menu1=new JMenu("Transformaciones");
@@ -121,9 +122,6 @@ public class Run
         archivo.addSeparator();
         archivo.add(getMenuItem("Mostrar grid", ()->tabbedPane.showGrid(),ImageLoader.enableGridRImage,
                 KeyStroke.getKeyStroke(KeyEvent.VK_M,InputEvent.CTRL_MASK),'M'));
-        archivo.add(getMenuItem("Restaurar figura", ()->{tabbedPane.resetShape();tabbedPane.updatePaint();},
-                ImageLoader.resetR,
-                KeyStroke.getKeyStroke(KeyEvent.VK_R,InputEvent.CTRL_MASK),'R'));
         archivo.add(getMenuItem("Seleccionar punto origen", ()->tabbedPane.puntoOrigen(),ImageLoader.origenR,
                 KeyStroke.getKeyStroke(KeyEvent.VK_P,InputEvent.CTRL_MASK),'P'));
         archivo.add(getMenuItem("Mostrar area/contorno  de la figura", ()->tabbedPane.enableArea(),

@@ -96,7 +96,7 @@ public class SideBar extends JPanel
             addSideComponent(ImageLoader.defY, ImageLoader.defYR, handler,
                     "Deformacion en Y", "AN_DEFY",true);
 
-            addSideComponent(ImageLoader.refX, ImageLoader.refX, handler,
+            addSideComponent(ImageLoader.refX, ImageLoader.refXR, handler,
                     "Reflexion en ambos ejes (x & y)", "AN_REF",true);
         }
     }
