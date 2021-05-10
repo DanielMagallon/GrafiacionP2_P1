@@ -16,7 +16,7 @@ public class TranslateWin extends JDialog {
 	public TranslateWin(JFrame v, boolean modal) {
 		super(v,modal);
 		setTitle("Traslacion de la figura");
-		setLocation(650,600);
+		setLocationRelativeTo(null);
 		setLayout(new FlowLayout());
 		//componentes
 		URL ruta=getClass().getResource("/rsc/menuimg/rotarLeft.png");

@@ -20,7 +20,7 @@ public class RotateWin extends JDialog {
 		super(v,modal);
 		setTitle("Rotar una figura en cualquier sentido");
 		setSize(500,60);
-		setLocation(650,600);
+		setLocationRelativeTo(null);
 		setLayout(new FlowLayout());
 		//componentes
 		URL ruta=getClass().getResource("/rsc/menuimg/rotarLeft.png");
