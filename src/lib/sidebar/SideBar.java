@@ -58,10 +58,10 @@ public class SideBar extends JPanel
             addSideComponent(ImageLoader.reset, ImageLoader.resetR, handler, "Restaurar figura",
                     "REST",true);
 
-            addSideComponent(ImageLoader.newTabImage, ImageLoader.newTabRImage, handler, "Seleccionar punto origen",
+            addSideComponent(ImageLoader.origen, ImageLoader.origenR, handler, "Seleccionar punto origen",
                     "ORIGIN",true);
 
-            addSideComponent(ImageLoader.mostrarArea, ImageLoader.mostrarAreaR, handler, "Mostrar area",
+            addSideComponent(ImageLoader.mostrarArea, ImageLoader.mostrarAreaR, handler, "Mostrar area/contorno",
                     "AREA",false);
 
             addSideComponent(ImageLoader.enableGridImage, ImageLoader.enableGridRImage, handler,
@@ -73,26 +73,31 @@ public class SideBar extends JPanel
             addSection("Animaciones").addSideComponent(ImageLoader.stop, ImageLoader.stopR, handler,
                     "Parar animacion", "STOP",false);
 
-            addSideComponent(ImageLoader.rotateLImage, ImageLoader.rotateLRImage, handler,
+            addSideComponent(ImageLoader.tras, ImageLoader.trasR, handler,
+                    "Traslacion", "AN_TRA",true);
+
+            addSideComponent(ImageLoader.rotateDImage, ImageLoader.rotateDRImage, handler,
                     "Rotacion sentido horario", "AN_ROTS",true);
+
 
             addSideComponent(ImageLoader.rotateLImage, ImageLoader.rotateLRImage, handler,
                     "Rotacion sentido antihorario", "AN_ROTC",true);
 
-            addSideComponent(ImageLoader.rotateLImage, ImageLoader.rotateLRImage, handler,
-                    "Escalamiento", "AN_ESC",true);
+            addSideComponent(ImageLoader.escalarPos, ImageLoader.escalarPosR, handler,
+                    "Escalamiento (+)", "AN_ESC+",true);
 
-            addSideComponent(ImageLoader.rotateLImage, ImageLoader.rotateLRImage, handler,
-                    "Traslacion", "AN_TRA",true);
+            addSideComponent(ImageLoader.escalarNega, ImageLoader.escalarNegaR, handler,
+                    "Escalamiento (-)", "AN_ESC-",true);
 
-            addSideComponent(ImageLoader.rotateLImage, ImageLoader.rotateLRImage, handler,
-                    "Deformacion", "AN_DEFX",true);
 
-            addSideComponent(ImageLoader.rotateLImage, ImageLoader.rotateLRImage, handler,
-                    "Deformacion", "AN_DEFY",true);
+            addSideComponent(ImageLoader.defX, ImageLoader.defXR, handler,
+                    "Deformacion en X", "AN_DEFX",true);
 
-            addSideComponent(ImageLoader.rotateLImage, ImageLoader.rotateLRImage, handler,
-                    "Reflexion", "AN_REF",true);
+            addSideComponent(ImageLoader.defY, ImageLoader.defYR, handler,
+                    "Deformacion en Y", "AN_DEFY",true);
+
+            addSideComponent(ImageLoader.refX, ImageLoader.refX, handler,
+                    "Reflexion en ambos ejes (x & y)", "AN_REF",true);
         }
     }
 

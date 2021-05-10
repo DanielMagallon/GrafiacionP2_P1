@@ -3,7 +3,9 @@ package lib.tabbedpane;
 import bin.Drawer;
 import bin.Point2D;
 import lib.modals.MapeoWin;
+import lib.staticlass.AnimationStatus;
 import lib.staticlass.AppProperties;
+import lib.staticlass.ImageLoader;
 import lib.staticlass.ShapePoints;
 import main.Run;
 
@@ -13,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
+import java.util.Random;
 
 public class Tab extends JPanel
 {
@@ -27,30 +30,39 @@ public class Tab extends JPanel
     private int points[];
     private JPopupMenu popupMenu;
     private Timer timer;
+    public boolean animation;
     private int delay=500;
     private Runnable runner;
     public Drawer drawer;
+    private JLabel msg;
+    public AnimationStatus animationStatus;
 
     private Tab(JFrame f)
     {
         setLayout(new BorderLayout());
 
+        animationStatus = AnimationStatus.NONE;
+
         drawer = new Drawer(ShapePoints.getCopyOf(ShapePoints.shape2));
 
         popupMenu = new JPopupMenu();
 
-        JMenuItem mtReset = new JMenuItem("Restaurar figura");
+        JMenuItem mtReset = new JMenuItem("Restaurar figura", ImageLoader.resetR);
         mtReset.addActionListener(a-> {
             drawer.restaurar();
             repaint();
         });
         popupMenu.add(mtReset);
 
-        JMenuItem mtSelectPoint = new JMenuItem("Seleccionar punto origen");
-        mtReset.addActionListener(a-> {
+        JMenuItem mtSelectPoint = new JMenuItem("Seleccionar punto origen",ImageLoader.origenR);
+        mtSelectPoint.addActionListener(a-> {
             cursorSelect();
         });
         popupMenu.add(mtSelectPoint);
+
+        JMenuItem mtClose = new JMenuItem("Cerar",ImageLoader.cerrarR);
+        mtClose.addActionListener(a-> Run.tabbedPane.close());
+        popupMenu.add(mtClose);
 
         addMouseWheelListener(mw->{
                 int sentRueda=mw.getWheelRotation();
@@ -64,7 +76,8 @@ public class Tab extends JPanel
 
         JLabel lblX = new JLabel("X: 0");
         JLabel lblY = new JLabel("Y: 0");
-        JPanel pn = new JPanel(){{add(lblX);add(lblY);}};
+        msg = new JLabel("Mensaje: ");
+        JPanel pn = new JPanel(){{add(lblX);add(lblY);add(msg);}};
         this.add(pn,"North");
 
         addMouseListener(new MouseAdapter() {
@@ -115,7 +128,7 @@ public class Tab extends JPanel
 
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
-                if(mover){
+                if(mover && !selectPoint){
                     setCursor(null);
                 }
             }
@@ -143,6 +156,7 @@ public class Tab extends JPanel
         } );
 
         timer = new Timer(delay,a->runner.run());
+        this.animation = false;
     }
 
     public Tab(JFrame f, GraphicsRunnable gr,int maxWidth,int maxHeight,Color bg,Color line,int pixelSize)
@@ -172,28 +186,8 @@ public class Tab extends JPanel
         }
     }
 
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
     public void setRunner(Runnable runner) {
         this.runner = runner;
-    }
-
-    public Color getDefaultBg() {
-        return defaultBg;
-    }
-
-    public void setDefaultBg(Color defaultBg) {
-        this.defaultBg = defaultBg;
-    }
-
-    public Color getDefaultLineColor() {
-        return defaultLineColor;
-    }
-
-    public void setDefaultLineColor(Color defaultLineColor) {
-        this.defaultLineColor = defaultLineColor;
     }
 
     public boolean isPaintLines() {
@@ -202,6 +196,13 @@ public class Tab extends JPanel
 
     public void setPaintLines(boolean paintLines) {
         this.paintLines = paintLines;
+    }
+
+
+    private boolean isReflectX=true;
+
+    public boolean isReflectionX(){
+           return isReflectX = !isReflectX;
     }
 
     @Override
@@ -247,11 +248,48 @@ public class Tab extends JPanel
             graphics.drawLine(points[0],points[2], points[0],points[3]);
             graphics.drawLine(points[1],points[2],points[1],points[3]);
             graphics.drawLine(points[0],points[3],points[1],points[3]);
+
         }
     }
 
-    public void setStatusTimer(boolean start){
-        if(start) timer.start(); else timer.stop();
+    public boolean isAnimated(String animacion){
+        if(timer.isRunning()){
+            msg.setText(String.format("Mensaje: No es posible aplicar %s durante una animacion.",animacion));
+            return true;
+        }
+        return false;
+    }
+
+    public void setStatusTimer(AnimationStatus animationStatus){
+        this.animationStatus = animationStatus;
+
+        if(animationStatus==AnimationStatus.START) {
+            timer.start();
+            msg.setText("Mensaje: Animacion en curso.");
+        }
+
+        else{
+            animation = false;
+            timer.stop();
+            msg.setText(String.format("Mensaje: Animacion %s.",animationStatus==AnimationStatus.STOP ?
+                    "finalizada" : "suspendida"));
+        }
+    }
+
+    private static Random lb = new Random();
+
+    public int[] getRandomIncTranslate(){
+        int x = lb.nextInt(101);
+        int y = lb.nextInt(101);
+        int flagX = lb.nextInt(2);
+        int flagY = lb.nextInt(2);
+
+        if(flagX==0)
+            x=-x;
+        if(flagY==0)
+            y=-y;
+
+        return new int[]{x,y};
     }
 
     public void enableArea(){

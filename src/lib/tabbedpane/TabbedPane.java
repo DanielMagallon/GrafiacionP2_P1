@@ -1,17 +1,19 @@
 package lib.tabbedpane;
 
+import lib.staticlass.AnimationStatus;
+import lib.staticlass.OptionsPaint;
+import main.Run;
+
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalTabbedPaneUI;
 import java.awt.*;
 
-public class TabbedPane extends JTabbedPane
-{
+public class TabbedPane extends JTabbedPane {
     private int index;
 
     private Tab selectedTab;
 
-    public TabbedPane()
-    {
+    public TabbedPane() {
 
 
         this.setUI(new MetalTabbedPaneUI() {
@@ -22,6 +24,7 @@ public class TabbedPane extends JTabbedPane
                 int extra = tabIndex * 10;
                 return width + extra;
             }
+
             @Override
             protected int calculateMaxTabHeight(int arg0) {
                 // TODO Auto-generated method stub
@@ -30,134 +33,221 @@ public class TabbedPane extends JTabbedPane
 
         });
 
-        addChangeListener( c -> getCurrentTab());
+        addChangeListener(c -> getCurrentTab());
     }
 
-    private boolean animation;
-    public TabbedPane initTimer(){
+    public TabbedPane initTimer() {
 
-        if(isValidPane())
-        {
-            animation = true;
+        if (isValidPane()) {
+            selectedTab.animation = true;
         }
         return this;
     }
 
-    public void resetShape()
-    {
-        selectedTab.drawer.restaurar();
+    public void resetShape() {
+        if (isValidPane()) {
+
+            if (selectedTab.isAnimated("el reset"))
+                return;
+
+            selectedTab.drawer.restaurar();
+        }
     }
 
-    public void updatePaint(){
-        if(isValidPane())
+    public void updatePaint() {
+        if (isValidPane())
             selectedTab.repaint();
     }
 
-    public void translate(int x,int y)
-    {
-        selectedTab.drawer.trasladar(x,y);
-    }
+    public void translate(int x, int y) {
+        if (isValidPane()) {
 
-    public void puntoOrigen(){
-        selectedTab.cursorSelect();
-    }
+            if (selectedTab.isAnimated("la traslacion"))
+                return;
 
+            if (selectedTab.animation) {
 
-
-    public void scale(double esc)
-    {
-        if(isValidPane()) {
-            if (animation) {
-
-                selectedTab.setRunner(()->{
-
+                selectedTab.setRunner(() -> {
+                    int[] xy = selectedTab.getRandomIncTranslate();
+                    selectedTab.drawer.trasladar(xy[0], xy[1]);
+                    selectedTab.repaint();
                 });
+
+                selectedTab.setStatusTimer(AnimationStatus.START);
+
+            } else selectedTab.drawer.trasladar(x, y);
+        }
+    }
+
+    public void puntoOrigen() {
+        if (isValidPane()) {
+
+            if (selectedTab.isAnimated("seleccion de punto origen"))
+                return;
+
+            selectedTab.cursorSelect();
+        }
+    }
+
+    public void scale(double esc) {
+        if (isValidPane()) {
+
+            if (selectedTab.isAnimated("la escalacion"))
+                return;
+
+            if (selectedTab.animation) {
+
+                selectedTab.setRunner(() -> {
+
+                    if (selectedTab.isReflectionX())
+                        selectedTab.drawer.escalaPuntoH(esc);
+                    else
+                        selectedTab.drawer.escalaPuntoH(esc);
+
+                    selectedTab.repaint();
+                });
+
+                selectedTab.setStatusTimer(AnimationStatus.START);
 
             } else selectedTab.drawer.escalaPuntoH(esc);
         }
     }
 
-    public void enableArea(){
-        selectedTab.enableArea();
+    public void stop() {
+        if (isValidPane())
+            selectedTab.setStatusTimer(AnimationStatus.STOP);
     }
 
-    public void reflexion(double x, double y)
-    {
-        selectedTab.drawer.reflexionPuntoH(x,y);
+    public void enableArea() {
+        if (isValidPane()) selectedTab.enableArea();
     }
 
-    private int angInc;
-    public void rotateSentido(int ang)
-    {
-        angInc = ang;
-        if(isValidPane()) {
+    public void reflexion(double x, double y) {
+        if (isValidPane()) {
 
-            if (animation) {
+            if (selectedTab.isAnimated("la reflexion"))
+                return;
+
+            if (selectedTab.animation) {
                 selectedTab.setRunner(() -> {
 
-                        selectedTab.drawer.rotacionsenConPuntoH(angInc);
-                        selectedTab.repaint();
+                    if (selectedTab.isReflectionX())
+                        selectedTab.drawer.reflexionPuntoH(1, -1);
+                    else
+                        selectedTab.drawer.reflexionPuntoH(-1, 1);
+
+                    selectedTab.repaint();
                 });
 
-                selectedTab.setStatusTimer(true);
-            }
-
-            else selectedTab.drawer.rotacionsenConPuntoH(ang);
+                selectedTab.setStatusTimer(AnimationStatus.START);
+            } else selectedTab.drawer.reflexionPuntoH(x, y);
         }
     }
 
-    public void rotateContra(int ang)
-    {
-        selectedTab.drawer.rotacionContraH(ang);
-//        Run.mapeoWin.updatePaint();
+    public void rotateSentido(int ang) {
+        if (isValidPane()) {
+
+            if (selectedTab.isAnimated("la rotacion"))
+                return;
+
+            if (selectedTab.animation) {
+                selectedTab.setRunner(() -> {
+
+                    selectedTab.drawer.rotacionsenConPuntoH(ang);
+                    selectedTab.repaint();
+                });
+
+                selectedTab.setStatusTimer(AnimationStatus.START);
+            } else selectedTab.drawer.rotacionsenConPuntoH(ang);
+        }
     }
 
-    public void deformar(double x, double y){
-        selectedTab.drawer.deformarPuntoH(x,y);
+    public void rotateContra(int ang) {
+        if (isValidPane()) {
+
+            if (selectedTab.isAnimated("la rotacion"))
+                return;
+
+            if (selectedTab.animation) {
+                selectedTab.setRunner(() -> {
+
+                    selectedTab.drawer.rotacionContraH(ang);
+                    selectedTab.repaint();
+                });
+
+                selectedTab.setStatusTimer(AnimationStatus.START);
+            } else selectedTab.drawer.rotacionContraH(ang);
+        }
     }
 
-    public void showGrid()
-    {
-         selectedTab.setPaintLines(!selectedTab.isPaintLines());
-         selectedTab.repaint();
+    public void deformar(double x, double y) {
+        if (isValidPane()) {
+
+            if (selectedTab.isAnimated("la deformacion"))
+                return;
+
+            if (selectedTab.animation) {
+                selectedTab.setRunner(() -> {
+                    selectedTab.drawer.deformarPuntoH(x, y);
+                    selectedTab.repaint();
+                });
+
+                selectedTab.setStatusTimer(AnimationStatus.START);
+            } else selectedTab.drawer.deformarPuntoH(x, y);
+        }
     }
 
-    public void close(){
-        if(isValidPane())
-        {
-            selectedTab.setStatusTimer(false);
+    public void showGrid() {
+        if (isValidPane()) {
+            selectedTab.setPaintLines(!selectedTab.isPaintLines());
+            selectedTab.repaint();
+        }
+    }
+
+    public void close() {
+        if (isValidPane()) {
+            selectedTab.setStatusTimer(AnimationStatus.STOP);
             this.remove(selectedTab);
+            repaint();
+            validate();
             index--;
         }
     }
 
-    public boolean isValidPane(){
-        return selectedTab != null;
+    public boolean isValidPane() {
+        if(selectedTab!=null)
+            return true;
+
+        Run.optionPaint = OptionsPaint.DEFAULT;
+        return false;
     }
 
-    private void getCurrentTab()
-    {
+    private void getCurrentTab() {
+        if (selectedTab != null) {
+            if (selectedTab.animationStatus == AnimationStatus.START) {
+                selectedTab.setStatusTimer(AnimationStatus.SUSPEND);
+            }
+        }
+
         selectedTab = (Tab) this.getSelectedComponent();
+
+        if (selectedTab!=null && selectedTab.animationStatus == AnimationStatus.SUSPEND) {
+            selectedTab.setStatusTimer(AnimationStatus.START);
+        }
     }
 
-    public void addTab(JFrame f, String title,GraphicsRunnable gr, int maxWidth, int maxHeight, Color bg, Color line,
-                        int pixelSize)
-    {
-        this.addTab(title, new Tab(f,gr,maxWidth,maxHeight,bg,line,pixelSize));
+    public void addTab(JFrame f, String title, GraphicsRunnable gr, int maxWidth, int maxHeight, Color bg, Color line,
+                       int pixelSize) {
+        this.addTab(title, new Tab(f, gr, maxWidth, maxHeight, bg, line, pixelSize));
         selectTab();
     }
 
-    private void selectTab(){
+    private void selectTab() {
         index++;
-        if(index>1){
-            this.setSelectedIndex(index-1);
+        if (index > 1) {
+            this.setSelectedIndex(index - 1);
         }
 
     }
 
-    public void addTab(JFrame f, String title,GraphicsRunnable gr, int maxWidth, int maxHeight, Color bg, Color line)
-    {
-        this.addTab(title,new Tab(f,gr,maxWidth,maxHeight,bg,line));
-        selectTab();
-    }
 }

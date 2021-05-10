@@ -1,6 +1,7 @@
 
 package lib.modals;
 import lib.fieldregex.TextPattern;
+import lib.staticlass.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,12 +23,9 @@ public class RotateWin extends JDialog {
 		setSize(500,60);
 		setLocation(650,600);
 		setLayout(new FlowLayout());
-		//componentes
-		URL ruta=getClass().getResource("/rsc/menuimg/rotarLeft.png");
-		
-		et1=new JLabel(new ImageIcon(ruta));
-		ruta=getClass().getResource("/rsc/menuimg/rotarRight.png");
-		et2=new JLabel(new ImageIcon(ruta));
+
+		et1=new JLabel(ImageLoader.rotateDRImage);
+		et2=new JLabel(ImageLoader.rotateLRImage);
 		et3= new JLabel("Cantidad a rotar");
 		bg= new ButtonGroup();
 		rb1=new JRadioButton("",true);
@@ -46,9 +44,9 @@ public class RotateWin extends JDialog {
 		bac.addActionListener(arg0 -> {
          argRotar=new double[2];
          if(rb1.isSelected()) {
-             argRotar[0]=0;
-         }else {
              argRotar[0]=1;
+         }else {
+             argRotar[0]=0;
          }
             String res=ct.getText();
          try {

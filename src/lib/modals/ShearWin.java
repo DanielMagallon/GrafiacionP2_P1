@@ -2,6 +2,7 @@
 package lib.modals;
 
 import lib.fieldregex.TextPattern;
+import lib.staticlass.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,10 +19,8 @@ public class ShearWin extends JDialog {
 		setTitle("Deformar una figura en cualquier sentido");
 		setLocation(650,600);
 		setLayout(new FlowLayout());
-		//componentes
-		URL ruta=getClass().getResource("/rsc/menuimg/rotarLeft.png");
-		
-		et1=new JLabel(new ImageIcon(ruta));
+
+		et1=new JLabel(ImageLoader.defXR);
 		et2=new JLabel("Deformacion en x");
 		et3= new JLabel("Deformacion en y");
 

@@ -34,7 +34,7 @@ public class Autores extends JDialog {
         g.drawString("..:::::AUTORES:::::..",200, 70);
         g.drawString("Efrain Tovar Meza", 250, 150);
         g.drawString("No.Ctrl: 17420619", 250, 190);
-        g.drawString("Edgar Daniel Magallón Villanueva", 250, 350);
-        g.drawString("No.Ctrl: 17420517", 250, 390);
+        g.drawString("Edgar Daniel Magallon Villanueva", 250, 350);
+        g.drawString("No.Ctrl: 17420571", 250, 390);
      }
 }

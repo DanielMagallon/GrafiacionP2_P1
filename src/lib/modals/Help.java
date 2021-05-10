@@ -3,7 +3,7 @@ package lib.modals;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
-import javax.swing.JComponent.AccessibleJComponent;;
+
 public class Help extends JDialog
 {
 	Image img;
@@ -36,7 +36,7 @@ public class Help extends JDialog
         g.drawImage(img, 0, 210, null);
         ruta = getClass().getResource("/rsc/material/funciones.png");
         img=new ImageIcon(ruta).getImage();
-        g.drawString("Descripción de botones",270, 400);
+        g.drawString("Descripcion de botones",270, 400);
         g.drawImage(img, 0, 370, null);
     }
 }

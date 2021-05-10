@@ -3,6 +3,7 @@ package main;
 import lib.frame.DefaultFrame;
 import lib.modals.*;
 import lib.sidebar.SideBar;
+import lib.staticlass.ImageLoader;
 import lib.staticlass.OptionsPaint;
 import lib.staticlass.ShapePoints;
 import lib.tabbedpane.TabbedPane;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 public class Run
 {
     public static DefaultFrame frame;
-    private static TabbedPane tabbedPane;
+    public static TabbedPane tabbedPane;
     private static SideBar sideBar;
     private static JScrollPane sc;
     private static RotateWin modalRotar;
@@ -25,7 +26,7 @@ public class Run
     private static TranslateWin modalTras;
     private static Autores modalAutores;
     private static Help modalHelp;
-    private static OptionsPaint optionPaint = OptionsPaint.DEFAULT;
+    public static OptionsPaint optionPaint = OptionsPaint.DEFAULT;
 
     private static JMenuBar barraM;
     private static JMenu Menu1,Menu2;
@@ -36,64 +37,56 @@ public class Run
         frame.setJMenuBar(barraM);
         Menu1=new JMenu("Transformaciones");
         Menu2=new JMenu("Acerca de");
-        barraM.add(Menu1);
-        barraM.add(Menu2);
+
 
         opcRest=new JMenuItem("Restaurar");
         opcRest.setMnemonic('R');
         opcRest.setToolTipText("Restaura la figura a la original");
-        URL rutaIm= Run.class.getResource("/rsc/menuimg/rest.png");
-        opcRest.setIcon(new ImageIcon(rutaIm));
+        opcRest.setIcon(ImageLoader.resetR);
         opcRest.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,InputEvent.ALT_MASK));
 
         opcEsc=new JMenuItem("Escalar");
         opcEsc.setMnemonic('E');
         opcEsc.setToolTipText("Escala la figura al tamano deseado");
-        rutaIm= Run.class.getResource("/rsc/menuimg/esca.png");
-        opcEsc.setIcon(new ImageIcon(rutaIm));
+        opcEsc.setIcon(ImageLoader.escalarPosR);
         opcEsc.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,InputEvent.ALT_MASK));
 
         opcRotar=new JMenuItem("Rotacion");
         opcRotar.setToolTipText("Rota la figura en el sentido deseado");
-        rutaIm= Run.class.getResource("/rsc/menuimg/rotar.png");
-        opcRotar.setIcon(new ImageIcon(rutaIm));
+        opcRotar.setIcon(ImageLoader.rotateDRImage);
         opcRotar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,InputEvent.ALT_MASK));
 
         opcDef=new JMenuItem("Deformar");
         opcDef.setMnemonic('D');
         opcDef.setToolTipText("Deformar la figura a la cantidad deseada");
-        rutaIm= Run.class.getResource("/rsc/menuimg/def.png");
-        opcDef.setIcon(new ImageIcon(rutaIm));
+        opcDef.setIcon(ImageLoader.defXR);
         opcDef.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,InputEvent.ALT_MASK));
 
         opcRefX = new JMenuItem("Refleccion en X");
         opcRefX.setMnemonic('X');
         opcRefX.setToolTipText("Refleccion en X a la figura en sus cuadrantes");
-        rutaIm= Run.class.getResource("/rsc/menuimg/refle.png");
-        opcRefX.setIcon(new ImageIcon(rutaIm));
+        opcRefX.setIcon(ImageLoader.refXR);
         opcRefX.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,InputEvent.ALT_MASK));
 
         opcRefY = new JMenuItem("Refleccion en Y");
         opcRefY.setMnemonic('Y');
         opcRefY.setToolTipText("Refleccion en Y a la figura en sus cuadrantes");
-        rutaIm= Run.class.getResource("/rsc/menuimg/refle.png");
-        opcRefY.setIcon(new ImageIcon(rutaIm));
+        opcRefY.setIcon(ImageLoader.refYR);
         opcRefY.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y,InputEvent.ALT_MASK));
 
         opcTras =new JMenuItem("Trasladar");
         opcTras.setMnemonic('T');
         opcTras.setToolTipText("Trasladar la figura a unas coordenadas deseadas");
-        rutaIm= Run.class.getResource("/rsc/menuimg/mov.png");
-        opcTras.setIcon(new ImageIcon(rutaIm));
+        opcTras.setIcon(ImageLoader.trasR);
         opcTras.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,InputEvent.ALT_MASK));
 
         opcSalir=new JMenuItem("Salir");
         opcSalir.setMnemonic('S');
         opcSalir.setToolTipText("Salir del programa");
-        rutaIm= Run.class.getResource("/rsc/menuimg/s.png");
+        URL rutaIm= Run.class.getResource("/rsc/menuimg/s.png");
         opcSalir.setIcon(new ImageIcon(rutaIm));
         opcSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.ALT_MASK));
-
+        opcSalir.addActionListener(a->System.exit(0));
         Menu1.add(opcRest);
         Menu1.add(opcEsc);
         Menu1.add(opcRotar);
@@ -119,6 +112,24 @@ public class Run
         Menu2.add(opcAyu);
         //imagen de fondo
 
+        JMenu archivo = new JMenu("Archivo");
+        archivo.add(getMenuItem("Nueva pestania", Run::addNewTab,ImageLoader.newTabRImage,
+                KeyStroke.getKeyStroke(KeyEvent.VK_N,InputEvent.CTRL_MASK),'N'));
+        archivo.add(getMenuItem("Cerrar pestania", ()->tabbedPane.close(), ImageLoader.cerrarR,
+                KeyStroke.getKeyStroke(KeyEvent.VK_W,InputEvent.CTRL_MASK),'C'));
+        archivo.addSeparator();
+        archivo.add(getMenuItem("Mostrar grid", ()->tabbedPane.showGrid(),ImageLoader.enableGridRImage,
+                KeyStroke.getKeyStroke(KeyEvent.VK_M,InputEvent.CTRL_MASK),'M'));
+        archivo.add(getMenuItem("Restaurar figura", ()->{tabbedPane.resetShape();tabbedPane.updatePaint();},
+                ImageLoader.resetR,
+                KeyStroke.getKeyStroke(KeyEvent.VK_R,InputEvent.CTRL_MASK),'R'));
+        archivo.add(getMenuItem("Seleccionar punto origen", ()->tabbedPane.puntoOrigen(),ImageLoader.origenR,
+                KeyStroke.getKeyStroke(KeyEvent.VK_P,InputEvent.CTRL_MASK),'P'));
+        archivo.add(getMenuItem("Mostrar area/contorno  de la figura", ()->tabbedPane.enableArea(),
+                ImageLoader.mostrarAreaR,KeyStroke.getKeyStroke(KeyEvent.VK_A,InputEvent.CTRL_MASK),'A'));
+        barraM.add(archivo);
+        barraM.add(Menu1);
+        barraM.add(Menu2);
 
         opcDes.addActionListener(Run::menuListener);
         opcAyu.addActionListener(Run::menuListener);
@@ -129,6 +140,17 @@ public class Run
         opcEsc.addActionListener(Run::menuListener);
         opcRest.addActionListener(Run::menuListener);
         opcRotar.addActionListener(Run::menuListener);
+    }
+
+    private static JMenuItem getMenuItem(String text,Runnable handler, ImageIcon ic,KeyStroke keyStroke,
+                                         char mnemonic){
+        JMenuItem mt = new JMenuItem(text);
+        mt.setIcon(ic);
+        mt.addActionListener(a->handler.run());
+        mt.setMnemonic(mnemonic);
+        mt.setAccelerator(keyStroke);
+
+        return mt;
     }
 
 
@@ -199,13 +221,8 @@ public class Run
         UIManager.put("RadioButton.foreground", Color.white);
         UIManager.put("RadioButton.background",new Color(0x1A2136) );
         UIManager.put("Button.foreground",Color.white);
-//        UIManager.put("ToggleButton.foreground",Color.white);
-//        UIManager.put("Label.background", new Color(0x07F356));
         UIManager.put("Label.foreground", new Color(0xF3B407));
-//        UIManager.put("OptionPane.foreground", Color.white);
         UIManager.put("Panel.background", new Color(0x1A2136));
-//        UIManager.put("OptionPane.background",ColorManager.ESCALA_AZUL.getColorScaleOf(1));
-
     }
 
     private static final int WIDTH_SB = 165,HEIGHT_SB=1000;
@@ -230,8 +247,6 @@ public class Run
         sideBar = new SideBar(Run::actionPerformed);
         sideBar.setOrientation(true,WIDTH_SB,HEIGHT_SB);
         sc.setViewportView(sideBar);
-
-//        mapeoWin = new MapeoWin(frame,300,200);
 
         frame.getContentPane().add(sc,"West");
         frame.getContentPane().add(tabbedPane);
@@ -281,6 +296,10 @@ public class Run
                 optionPaint = OptionsPaint.AREA;
                 break;
 
+            case "STOP":
+                tabbedPane.stop();
+                return;
+
             case "RI":
                 optionPaint = OptionsPaint.ROTATE_CON;
                 break;
@@ -301,7 +320,32 @@ public class Run
                 tabbedPane.initTimer().rotateSentido(10);
                 return;
 
+            case "AN_REF":
+                tabbedPane.initTimer().reflexion(0,0);
+                return;
+
             case "AN_ROTC":
+                tabbedPane.initTimer().rotateContra(10);
+                return;
+
+            case "AN_ESC+":
+                tabbedPane.initTimer().scale(1.1);
+                return;
+
+            case "AN_ESC-":
+                tabbedPane.initTimer().scale(0.9);
+                return;
+
+            case "AN_DEFX":
+                tabbedPane.initTimer().deformar(0.1,0);
+                return;
+
+            case "AN_DEFY":
+                tabbedPane.initTimer().deformar(0,0.1);
+                return;
+
+            case "AN_TRA":
+                tabbedPane.initTimer().translate(0,0);
                 return;
 
             default:
@@ -314,7 +358,7 @@ public class Run
 
     public static void addNewTab()
     {
-            tabbedPane.addTab(frame,"Figura X",Run::paintCanvas,1000,600,
+            tabbedPane.addTab(frame,"Figura",Run::paintCanvas,1000,600,
                     new Color(0x1A2136),new Color(0x325180),25);
     }
 
